@@ -1,7 +1,7 @@
-from .ingest import DocumentLoader
 from .chunker import Chunker
 from .embedder import Embedder
-from .retriever import Retriever
+from .ingest import DocumentLoader
 from .reranker import Reranker
+from .retriever import Retriever
 
 __all__ = ["DocumentLoader", "Chunker", "Embedder", "Retriever", "Reranker"]

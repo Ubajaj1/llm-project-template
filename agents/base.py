@@ -3,7 +3,9 @@ Base agent class. Extend this — don't write raw LLM loops in application code.
 Handles the ReAct loop: think → tool call → observe → repeat until done.
 """
 from abc import ABC, abstractmethod
+
 from core import LLMClient
+
 from .tools.registry import ToolRegistry
 
 

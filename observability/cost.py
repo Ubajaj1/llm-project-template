@@ -22,4 +22,6 @@ class CostTracker:
 
     def check_call_limit(self, cost: float) -> None:
         if cost > settings.max_cost_per_call:
-            raise ValueError(f"Single call cost ${cost:.4f} exceeds limit ${settings.max_cost_per_call}")
+            raise ValueError(
+                f"Single call cost ${cost:.4f} exceeds limit ${settings.max_cost_per_call}"
+            )

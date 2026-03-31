@@ -2,11 +2,12 @@
 Split documents into chunks for embedding.
 Strategy matters: wrong chunk size is one of the top RAG failure modes.
 """
-from enum import Enum
+from enum import StrEnum
+
 from .ingest import Document
 
 
-class ChunkStrategy(str, Enum):
+class ChunkStrategy(StrEnum):
     FIXED = "fixed"           # fixed token count, fast, baseline
     RECURSIVE = "recursive"   # split on paragraph → sentence → word
     SEMANTIC = "semantic"     # split on embedding similarity shifts

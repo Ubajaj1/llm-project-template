@@ -1,6 +1,6 @@
 """Load and clean raw documents before chunking."""
-from pathlib import Path
 from dataclasses import dataclass
+from pathlib import Path
 
 
 @dataclass

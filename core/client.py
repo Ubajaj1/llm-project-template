@@ -4,8 +4,10 @@ All LLM calls go through this class so tracing, retries, and cost tracking
 are applied automatically.
 """
 from typing import Any
+
 import anthropic
 import openai
+
 from .config import settings
 from .router import ModelRouter
 
@@ -25,7 +27,7 @@ class LLMClient:
         **kwargs: Any,
     ) -> str:
         """Send a completion request. Routes to the appropriate provider."""
-        target_model = model or self.router.select(messages)
+        model or self.router.select(messages)
         # TODO: add tracing, cost tracking, and retry logic here
         raise NotImplementedError
 

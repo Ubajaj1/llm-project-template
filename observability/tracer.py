@@ -6,6 +6,7 @@ Supports Langfuse and LangSmith — configure via LANGFUSE_* or LANGSMITH_API_KE
 import time
 from dataclasses import dataclass, field
 from datetime import datetime
+
 from core.config import settings
 
 
@@ -30,6 +31,6 @@ class Tracer:
             return fn(*args, **kwargs)
         start = time.perf_counter()
         result = fn(*args, **kwargs)
-        latency_ms = (time.perf_counter() - start) * 1000
+        (time.perf_counter() - start) * 1000
         # TODO: parse token counts and compute cost, emit to Langfuse/LangSmith
         return result

@@ -2,9 +2,10 @@
 Eval runner: run the full evaluation suite and fail CI below threshold.
 Set this up before you ship — retrofitting evals after the fact is painful.
 """
+import json
 from dataclasses import dataclass
 from pathlib import Path
-import json
+
 from core.config import settings
 
 

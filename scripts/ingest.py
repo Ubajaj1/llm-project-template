@@ -4,7 +4,8 @@ Usage: python scripts/ingest.py --source data/raw/ --store chroma
 """
 import argparse
 from pathlib import Path
-from rag import DocumentLoader, Chunker, Embedder
+
+from rag import Chunker, DocumentLoader, Embedder
 
 
 def main() -> None:
@@ -15,7 +16,7 @@ def main() -> None:
 
     loader = DocumentLoader()
     chunker = Chunker()
-    embedder = Embedder()
+    Embedder()
 
     docs = loader.load_directory(args.source)
     print(f"Loaded {len(docs)} documents")

@@ -3,8 +3,9 @@ Tool registry: register and validate tools before the agent can call them.
 Validates arguments against the schema before execution — bad args fail fast,
 not silently inside the tool.
 """
-from typing import Callable, Any
+from collections.abc import Callable
 from dataclasses import dataclass
+from typing import Any
 
 
 @dataclass

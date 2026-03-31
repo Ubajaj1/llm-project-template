@@ -2,7 +2,7 @@
 Agent harness: the invisible runtime layer between your agent logic and the LLM.
 You write the agent logic. The harness handles everything that can go wrong.
 """
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 
 @dataclass
