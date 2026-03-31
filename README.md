@@ -1,6 +1,6 @@
 # LLM Project Template
 
-Production-ready Python starter for LLM projects: agents, RAG, evals, and observability — wired together from day 1.
+Production-ready Python starter for LLM projects: agents, RAG, evals, and observability.
 
 ## Structure
 
