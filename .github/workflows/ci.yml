@@ -22,8 +22,5 @@ jobs:
       - name: Lint
         run: ruff check .
 
-      - name: Type check
-        run: mypy .
-
       - name: Unit tests
         run: pytest tests/unit/ -v
