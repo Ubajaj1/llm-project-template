@@ -1,0 +1,2 @@
+# Add your golden test sets here as .jsonl files
+# Format: {"question": "...", "ground_truth": "...", "context": ["...", "..."]}
