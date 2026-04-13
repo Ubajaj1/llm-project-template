@@ -8,15 +8,14 @@ Create data/seed_queries.json with entries like:
 Run with: make warmup
 """
 import json
-import sys
 from pathlib import Path
 
 SEED_PATH = Path("data/seed_queries.json")
 
 
 def main() -> None:
-    from rag.embedder import Embedder
     from cache.semantic import SemanticCache
+    from rag.embedder import Embedder
 
     print("Loading embedder...")
     embedder = Embedder()
