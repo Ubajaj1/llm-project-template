@@ -34,5 +34,26 @@ class Settings(BaseSettings):
     eval_threshold_relevancy: float = 0.80
     eval_fail_ci: bool = True
 
+    # Audit logging
+    audit_enabled: bool = True
+    audit_log_path: str = "./data/audit/audit.jsonl"
+    audit_store_raw_prompts: bool = False  # off by default — privacy-first
+
+    # Semantic cache
+    cache_enabled: bool = True
+    cache_ttl_seconds: int = 3600
+    cache_similarity_threshold: float = 0.95
+    cache_max_size: int = 1000  # max cached query-response pairs (LRU eviction)
+    anthropic_prompt_cache: bool = True  # set cache_control on system prompts in core/client.py
+
+    # Guardrails
+    guardrails_input_policy: str = "block"    # block | warn | log_only
+    guardrails_output_policy: str = "warn"    # block | warn | log_only
+    guardrails_max_input_tokens: int = 8000
+
+    # Rate limiting
+    rate_limit_rpm: int = 60
+    rate_limit_tpm: int = 100_000
+
 
 settings = Settings()

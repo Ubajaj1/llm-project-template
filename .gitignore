@@ -21,9 +21,10 @@ venv/
 env/
 ENV/
 
-# Data — never commit raw documents or processed embeddings
+# Data — never commit raw documents, processed embeddings, or audit logs
 data/raw/
 data/processed/
+data/audit/
 
 # Eval outputs
 evals/results/

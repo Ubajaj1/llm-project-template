@@ -10,6 +10,7 @@ llm-project-template/
 ├── core/                          # Foundation — every other module imports from here
 │   ├── client.py                  # LLM client wrapper: swap providers here, not across the codebase
 │   ├── router.py                  # Route by cost / quality / latency — fast, balanced, best tiers
+│   ├── rate_limiter.py            # Sliding window rate limiter per user (RPM + TPM)
 │   └── config.py                  # All env vars in one place, validated with Pydantic
 │
 ├── agents/                        # Agent runtime
@@ -31,6 +32,21 @@ llm-project-template/
 │   │   └── user.txt               # User prompt template with {variable} slots
 │   └── loader.py                  # Load by name + version: never hardcode prompts in code
 │
+├── audit/                         # Compliance & accountability logging (≠ observability)
+│   ├── event.py                   # AuditEvent dataclass: who, what model, cost, status, flags
+│   ├── sinks.py                   # AuditSink ABC + FileAuditSink (JSONL) — swap backend freely
+│   └── logger.py                  # AuditLogger — one call per LLM request in the harness
+│
+├── cache/                         # Semantic cache — avoid redundant LLM calls
+│   ├── backends.py                # CacheBackend ABC + InMemoryBackend (LRU + TTL)
+│   └── semantic.py                # SemanticCache — embedding similarity lookup before calling LLM
+│
+├── guardrails/                    # Rule-based input/output validation — no extra LLM calls
+│   ├── base.py                    # GuardrailResult, ABCs, GuardrailPolicy (BLOCK/WARN/LOG_ONLY)
+│   ├── input.py                   # PromptInjectionGuardrail, PIIInputGuardrail, LengthGuardrail
+│   ├── output.py                  # RefusalDetector, PIIOutputGuardrail, SchemaGuardrail
+│   └── chain.py                   # GuardrailChain — compose guardrails, one policy per chain
+│
 ├── evals/                         # Eval harness — set this up before you ship
 │   ├── datasets/                  # Golden test sets: labeled question / answer / context triples
 │   ├── metrics/
@@ -48,11 +64,13 @@ llm-project-template/
 │
 ├── data/
 │   ├── raw/                       # Source documents — gitignored, never committed
-│   └── processed/                 # Chunks + embeddings — gitignored
+│   ├── processed/                 # Chunks + embeddings — gitignored
+│   └── audit/                     # Audit logs — gitignored
 │
 ├── scripts/
 │   ├── ingest.py                  # Run ingestion pipeline: raw docs → vector store
-│   └── run_evals.py               # Run full eval suite locally before pushing
+│   ├── run_evals.py               # Run full eval suite locally before pushing
+│   └── warmup.py                  # Pre-load embedder + hydrate cache before serving traffic
 │
 ├── .github/workflows/
 │   ├── ci.yml                     # Lint + type check + unit tests on every PR
@@ -60,7 +78,7 @@ llm-project-template/
 │
 ├── .env.example                   # Every env var the project needs, documented
 ├── pyproject.toml                 # Dependencies + tool config (ruff, mypy, pytest)
-└── Makefile                       # make install / ingest / evals / test / lint
+└── Makefile                       # make install / ingest / evals / test / lint / warmup
 ```
 
 ## Quickstart
@@ -106,4 +124,8 @@ make test
 | Vector store | Chroma | `VECTOR_STORE` env var |
 | Evals | RAGAS | `evals/metrics/` |
 | Observability | Langfuse | `LANGFUSE_*` env vars |
+| Audit log | JSONL file | `AuditSink` ABC in `audit/sinks.py` |
+| Cache backend | In-memory LRU | `CacheBackend` ABC in `cache/backends.py` |
+| Guardrails | Rule-based regex | Add/remove from `GuardrailChain` |
+| Rate limiter | In-process sliding window | Replace `RateLimiter` in `core/rate_limiter.py` |
 | Config | Pydantic Settings | `core/config.py` |
